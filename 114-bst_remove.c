@@ -41,26 +41,23 @@ bst_t *bst_remove(bst_t *root, int value)
 		}
 		if (root->left == NULL)
 		{
-			temp = root->right, temp->parent = root->parent, free(root);
+			temp = root->right;
+			temp->parent = root->parent;
+			free(root);
 			return (temp);
 		}
 		else if (root->right == NULL)
 		{
-			temp = root->left, temp->parent = root->parent;
+			temp = root->left;
+			temp->parent = root->parent;
 			free(root);
 			return (temp);
 		}
 		else
 		{
 			successor = find_minimum(root->right);
-			successor->parent->left = NULL;
-			successor->left = root->left;
-			root->left->parent = successor;
-			root->right->parent = successor;
-			successor->right = root->right;
-			successor->parent = root->parent;
-			free(root);
-			return (successor);
+			root->n = successor->n;
+			root->right = bst_remove(root->right, successor->n);
 		}
 	}
 	if (value < root->n)
