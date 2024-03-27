@@ -16,7 +16,8 @@ bst_t *insert(bst_t **tree, bst_t **parent, int value)
 	{
 		new_node = binary_tree_node(NULL, value);
 		*tree = new_node;
-		(*tree)->parent = *parent;
+		if (parent)
+			(*tree)->parent = *parent;
 
 		return (new_node);
 	}
@@ -41,5 +42,5 @@ bst_t *bst_insert(bst_t **tree, int value)
 {
 	if (tree == NULL)
 		return (NULL);
-	return (insert(tree, tree, value));
+	return (insert(tree, NULL, value));
 }
