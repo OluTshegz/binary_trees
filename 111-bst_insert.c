@@ -1,5 +1,4 @@
 #include "binary_trees.h"
-#include <stdio.h>
 
 /**
  * insert - Helper function that inserts a value in a Binary Search Tree
@@ -40,5 +39,7 @@ bst_t *insert(bst_t **tree, bst_t **parent, int value)
 
 bst_t *bst_insert(bst_t **tree, int value)
 {
+	if (tree == NULL)
+		return (NULL);
 	return (insert(tree, tree, value));
 }
