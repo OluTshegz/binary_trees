@@ -28,7 +28,7 @@ bst_t *find_minimum(bst_t *root)
 */
 bst_t *bst_remove(bst_t *root, int value)
 {
-	bst_t *successor, *temp;
+	bst_t *successor = NULL, *temp = NULL;
 
 	if (root == NULL)
 		return (NULL);
