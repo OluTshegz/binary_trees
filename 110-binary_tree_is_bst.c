@@ -19,7 +19,7 @@ int validate_left(const binary_tree_t *tree, int *is_bst, int root_value)
 	validate_left(tree->left, is_bst, root_value);
 	validate_left(tree->right, is_bst, root_value);
 
-	if (tree->n >= root_value)
+	if (tree->n > root_value)
 		*is_bst = 0;
 
 	return (*is_bst);
@@ -43,7 +43,7 @@ int validate_right(const binary_tree_t *tree, int *is_bst, int root_value)
 	validate_right(tree->left, is_bst, root_value);
 	validate_right(tree->right, is_bst, root_value);
 
-	if (tree->n < root_value)
+	if (tree->n <= root_value)
 		*is_bst = 0;
 	return (*is_bst);
 }
