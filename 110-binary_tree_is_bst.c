@@ -61,9 +61,6 @@ int binary_tree_is_bst(const binary_tree_t *tree)
 	if (tree == NULL)
 		return (0);
 
-	binary_tree_is_bst(tree->left);
-	binary_tree_is_bst(tree->right);
-
 	validate_left(tree->left, &is_bst, tree->n);
 	validate_right(tree->right, &is_bst, tree->n);
 	return (is_bst);
