@@ -12,7 +12,7 @@
 
 bst_t *insert(bst_t **tree, bst_t **parent, int value)
 {
-	bst_t *new_node;
+	bst_t *new_node = NULL;
 
 	if (*tree == NULL)
 	{
@@ -77,9 +77,10 @@ void make_tree_avl(avl_t **tree)
 
 avl_t *avl_insert(avl_t **tree, int value)
 {
+	avl_t *new_node = NULL;
+
 	if (tree == NULL)
 		return (NULL);
-	avl_t *new_node = NULL;
 
 	new_node = insert(tree, tree, value);
 
