@@ -27,7 +27,8 @@ void _tree_size(binary_tree_t *tree, size_t *size)
  **/
 int *heap_to_sorted_array(heap_t *heap, size_t *size)
 {
-	int i, *arr = NULL, s = 0;
+	int i, *arr = NULL;
+	size_t s = 0;
 
 	if (!heap || !size)
 		return (NULL);
