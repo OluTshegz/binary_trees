@@ -2,6 +2,38 @@
 #include <stdlib.h>
 
 /**
+ * make_tree_avl - Turns a BST to AVL tree if it's not a AVL already
+ * @tree: Is a double pointer to the root node of the BST tree
+*/
+
+void rebalance_avl_tree(avl_t **tree)
+{
+	int balance_factor = 0;
+
+	if (*tree == NULL)
+		return;
+
+	rebalance_avl_tree(&(*tree)->right);
+	rebalance_avl_tree(&(*tree)->left);
+
+	balance_factor = binary_tree_balance(*tree);
+
+	if (balance_factor > 1)
+	{
+		if (binary_tree_balance((*tree)->left) < 0)
+			(*tree)->left = binary_tree_rotate_left((*tree)->left);
+		*tree = binary_tree_rotate_right(*tree);
+	}
+
+	if (balance_factor < -1)
+	{
+		if (binary_tree_balance((*tree)->right) > 0)
+			(*tree)->right = binary_tree_rotate_right((*tree)->right);
+		*tree = binary_tree_rotate_left(*tree);
+	}
+}
+
+/**
  * find_minimum - Finds the minimum node in a tree
  * @root: Is a pointer to the first node of the tree
  * Return: The node that contains the minimum value
@@ -61,7 +93,7 @@ avl_t *avl_remove(avl_t *root, int value)
 			root->n = successor->n;
 			root->right = avl_remove(root->right, successor->n);
 		}
-		make_tree_avl(&root);
+		rebalance_avl_tree(&root);
 	}
 
 	if (value < root->n)
