@@ -24,17 +24,15 @@ avl_t *sorted_array_to_avl_helper(int *array, int left, int right, avl_t *root)
 	{
 		middle = (left + right) / 2;
 		new_node = binary_tree_node(NULL, array[middle]);
+		if (new_node == NULL)
+			return (NULL);
 		if (root == NULL)
 			root = new_node;
 		else if (new_node->n < root->n)
 			root->left = new_node;
 		else if (new_node->n > root->n)
 			root->right = new_node;
-		else
-		{
-			free(new_node);
-			return (NULL);
-		}
+
 		new_node->parent = root;
 		sorted_array_to_avl_helper(array, left, middle - 1, new_node);
 		sorted_array_to_avl_helper(array, middle + 1, right, new_node);
