@@ -46,24 +46,23 @@ void make_tree_avl(avl_t **tree)
 	if (*tree == NULL)
 		return;
 
-	make_tree_avl(&(*tree)->right);
-	make_tree_avl(&(*tree)->left);
-
 	balance_factor = binary_tree_balance(*tree);
 
 	if (balance_factor > 1)
 	{
-		if (binary_tree_balance((*tree)->left) < 0)
+		if ((*tree)->left->right)
 			(*tree)->left = binary_tree_rotate_left((*tree)->left);
 		*tree = binary_tree_rotate_right(*tree);
 	}
 
 	if (balance_factor < -1)
 	{
-		if (binary_tree_balance((*tree)->right) > 0)
+		if ((*tree)->right->left)
 			(*tree)->right = binary_tree_rotate_right((*tree)->right);
 		*tree = binary_tree_rotate_left(*tree);
 	}
+	make_tree_avl(&(*tree)->right);
+	make_tree_avl(&(*tree)->left);
 }
 
 /**
