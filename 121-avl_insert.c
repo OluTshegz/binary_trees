@@ -5,32 +5,51 @@
  * insert - Helper function that inserts a value in a Binary Search Tree
  * @tree: Is a double pointer to the root node of the BST to insert the value
  * @value: Is the value to store in the node to be inserted
- * @parent: Is a double pointer to the parent of the current node
  * Return: A pointer to the created node, or NULL on failure
  */
 
 
-bst_t *insert(bst_t **tree, bst_t **parent, int value)
+bst_t *insert(bst_t **tree, int value)
 {
-	bst_t *new_node = NULL;
+	bst_t *new, *temp;
+	binary_tree_t *aux;
+
+	if (tree == NULL)
+		return (NULL);
 
 	if (*tree == NULL)
 	{
-		new_node = binary_tree_node(NULL, value);
-		*tree = new_node;
-		if (parent)
-			(*tree)->parent = *parent;
-
-		return (new_node);
+		aux = binary_tree_node((binary_tree_t *)(*tree), value);
+		new = (bst_t *)aux;
+		*tree = new;
 	}
-
-	if (value < (*tree)->n)
-		new_node = insert(&((*tree)->left), tree, value);
-	else if (value > (*tree)->n)
-		new_node = insert(&((*tree)->right), tree, value);
 	else
-		return (NULL);
-	return (new_node);
+	{
+		temp = *tree;
+		if (value < temp->n)
+		{
+			if (temp->left)
+				new = insert(&temp->left, value);
+			else
+			{
+				aux = binary_tree_node((binary_tree_t *)temp, value);
+				new = temp->left = (bst_t *)aux;
+			}
+		}
+		else if (value > temp->n)
+		{
+			if (temp->right)
+				new = insert(&temp->right, value);
+			else
+			{
+				aux = binary_tree_node((binary_tree_t *)temp, value);
+				new = temp->right = aux;
+			}
+		}
+		else
+			return (NULL);
+	}
+	return (new);
 }
 
 
@@ -46,23 +65,24 @@ void make_tree_avl(avl_t **tree)
 	if (*tree == NULL)
 		return;
 
+	make_tree_avl(&(*tree)->right);
+	make_tree_avl(&(*tree)->left);
+
 	balance_factor = binary_tree_balance(*tree);
 
 	if (balance_factor > 1)
 	{
-		if ((*tree)->left->right)
+		if (binary_tree_balance((*tree)->left) < 0)
 			(*tree)->left = binary_tree_rotate_left((*tree)->left);
 		*tree = binary_tree_rotate_right(*tree);
 	}
 
 	if (balance_factor < -1)
 	{
-		if ((*tree)->right->left)
+		if (binary_tree_balance((*tree)->right) > 0)
 			(*tree)->right = binary_tree_rotate_right((*tree)->right);
 		*tree = binary_tree_rotate_left(*tree);
 	}
-	make_tree_avl(&(*tree)->right);
-	make_tree_avl(&(*tree)->left);
 }
 
 /**
@@ -81,7 +101,7 @@ avl_t *avl_insert(avl_t **tree, int value)
 	if (tree == NULL)
 		return (NULL);
 
-	new_node = insert(tree, tree, value);
+	new_node = insert(tree, value);
 
 	make_tree_avl(tree);
 
