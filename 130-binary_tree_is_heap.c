@@ -46,18 +46,19 @@ int tree_is_complete(const binary_tree_t *tree, int index, int size)
  * Return: 1 if tree is a valid Max Binary Heap, otherwise it returns 0
 */
 
-void tree_is_max_heap(const binary_tree_t *tree,
-				const binary_tree_t *root, int *is_max)
+int tree_is_max_heap(const binary_tree_t *tree)
 {
 
-	if (tree == NULL || !*is_max)
-		return;
+	if (tree == NULL)
+        return 1;
 
-	if (tree->n > root->n)
-		*is_max = 0;
+    if (tree->left != NULL && tree->left->n > tree->n)
+        return 0;
 
-	tree_is_max_heap(tree->left, root, is_max);
-	tree_is_max_heap(tree->right, root, is_max);
+    if (tree->right != NULL && tree->right->n > tree->n)
+        return 0;
+
+    return (tree_is_max_heap(tree->left) && tree_is_max_heap(tree->right));
 }
 
 
@@ -72,22 +73,13 @@ int binary_tree_is_heap(const binary_tree_t *tree)
 	int size = 0;
 	int is_max = 1;
 	int is_complete = 0;
-	int left_is_max = 0;
-	int right_is_max = 0;
 
 	if (tree == NULL)
-		return (1);
+		return (0);
 
 	tree_size(tree, &size);
 	is_complete = tree_is_complete(tree, 0, size);
-	tree_is_max_heap(tree, tree, &is_max);
-	left_is_max = binary_tree_is_heap(tree->left);
-	right_is_max = binary_tree_is_heap(tree->right);
+	is_max = tree_is_max_heap(tree);
 
-	if (!is_max || !is_complete || !left_is_max || !right_is_max)
-	{
-		return (0);
-	}
-	else
-		return (1);
+	return (is_max && is_complete);
 }
