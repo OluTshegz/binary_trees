@@ -77,6 +77,8 @@ void make_tree_avl(avl_t **tree)
 
 avl_t *avl_insert(avl_t **tree, int value)
 {
+	if (tree == NULL)
+		return (NULL);
 	avl_t *new_node = NULL;
 
 	new_node = insert(tree, tree, value);
