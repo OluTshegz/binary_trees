@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 /**
- * make_tree_avl - Turns a BST to AVL tree if it's not a AVL already
+ * rebalance_avl_tree - Turns a BST to AVL tree if it's not a AVL already
  * @tree: Is a double pointer to the root node of the BST tree
 */
 
@@ -93,12 +93,12 @@ avl_t *avl_remove(avl_t *root, int value)
 			root->n = successor->n;
 			root->right = avl_remove(root->right, successor->n);
 		}
-		rebalance_avl_tree(&root);
 	}
-
 	if (value < root->n)
 		root->left = avl_remove(root->left, value);
 	else if (value > root->n)
 		root->right = avl_remove(root->right, value);
+
+	rebalance_avl_tree(&root);
 	return (root);
 }
