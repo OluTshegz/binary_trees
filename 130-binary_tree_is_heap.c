@@ -41,24 +41,21 @@ int tree_is_complete(const binary_tree_t *tree, int index, int size)
  * to check if a binary tree is a valid Max Binary Heap
  *
  * @tree: Is a pointer to the root node of the sub tree to check
- * @root: Is a pointer to the root node of the parent tree to check
- * @is_max: Is the checking value
  * Return: 1 if tree is a valid Max Binary Heap, otherwise it returns 0
 */
 
 int tree_is_max_heap(const binary_tree_t *tree)
 {
-
 	if (tree == NULL)
-        return 1;
+		return (1);
 
-    if (tree->left != NULL && tree->left->n > tree->n)
-        return 0;
+	if (tree->left != NULL && tree->left->n > tree->n)
+		return (0);
 
-    if (tree->right != NULL && tree->right->n > tree->n)
-        return 0;
+	if (tree->right != NULL && tree->right->n > tree->n)
+		return (0);
 
-    return (tree_is_max_heap(tree->left) && tree_is_max_heap(tree->right));
+	return (tree_is_max_heap(tree->left) && tree_is_max_heap(tree->right));
 }
 
 
